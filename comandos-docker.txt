@@ -12,3 +12,6 @@ Parar todos os contêineres em execução: docker stop $(docker ps -a -q)
 Excluir todos os contêineres parados: docker rm $(docker ps -a -q)
 
 docker-compose up --build
+
+//verificar se o banco esta rodando: docker logs --follow nomeDoContainer
+docker logs --follow product-db
