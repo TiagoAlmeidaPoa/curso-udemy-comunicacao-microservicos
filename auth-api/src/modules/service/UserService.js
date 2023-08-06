@@ -12,10 +12,12 @@ class UserService {
 
     async findByEmail(req) {
         try {
-            const {email} = req.params;
+            const { email } = req.params;
+            const { authUser } = req;
             this.validateRequestData(email); 
-            let user = await userRepository.findByEmail(email);
-            this.validateUserNotFound(user);
+            let user = await userRepository.findByEmail(email);            
+            await this.validateUserNotFound(user);
+            await this.validateAuthenticatedUser(user, authUser);
             return {
                 status: HttpStatus.SUCCESS,
                 user: {
@@ -42,6 +44,12 @@ class UserService {
         if (!user) {
             throw new Error( HttpStatus.BAD_REQUEST, "User was not found !" );
         }
+    }
+
+    validateAuthenticatedUser(user, authUser) {
+        if( !authUser || user.id !== authUser.d ) {
+            throw new UserException(HttpStatus.FORBIDDEN, "You can't see this user data.")
+        };
     }
 
     async getAccessToken(req) {
