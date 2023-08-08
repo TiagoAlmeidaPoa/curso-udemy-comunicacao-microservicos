@@ -19,6 +19,9 @@ public class Product {
     @Column(name = "NAME", nullable = false)
     private String name;
 
+    @Column(name = "AVAILABLE_QUANTITY", nullable = false)
+    private Integer availableQuantity;
+
     @ManyToOne
     @JoinColumn(name = "FK_SUPPLIER", nullable = false)
     private Supplier supplier;
