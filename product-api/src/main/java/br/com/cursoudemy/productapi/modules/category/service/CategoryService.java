@@ -1,10 +1,10 @@
-package br.com.cursoudemy.productapi.modules.product.service;
+package br.com.cursoudemy.productapi.modules.category.service;
 
 import br.com.cursoudemy.productapi.config.exception.ValidationException;
-import br.com.cursoudemy.productapi.modules.product.dto.CategoryRequest;
-import br.com.cursoudemy.productapi.modules.product.dto.CategoryResponse;
-import br.com.cursoudemy.productapi.modules.product.model.Category;
-import br.com.cursoudemy.productapi.modules.product.repository.CategoryRepository;
+import br.com.cursoudemy.productapi.modules.category.dto.CategoryRequest;
+import br.com.cursoudemy.productapi.modules.category.dto.CategoryResponse;
+import br.com.cursoudemy.productapi.modules.category.model.Category;
+import br.com.cursoudemy.productapi.modules.category.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,12 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    public Category findById(Integer id) {
+        return categoryRepository
+            .findById(id)
+            .orElseThrow(() -> new ValidationException("There's no category for the given ID."));
+    }
 
     public CategoryResponse save(CategoryRequest request) {
         validateCategoryNameInformed(request);
