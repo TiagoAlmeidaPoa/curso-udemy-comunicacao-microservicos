@@ -20,11 +20,14 @@ import java.time.LocalDateTime;
 public class ProductResponse {
     private Integer id;
     private String name;
+    @JsonProperty("available_quantity")
     private Integer availableQuantity;
     @JsonProperty("created_at")
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
+    @JsonProperty("supplier_id")
     private SupplierResponse supplier;
+    @JsonProperty("category_id")
     private CategoryResponse category;
 
     public static ProductResponse of(Product product) {
