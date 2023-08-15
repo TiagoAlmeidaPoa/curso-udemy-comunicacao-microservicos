@@ -1,5 +1,6 @@
 package br.com.cursoudemy.productapi.modules.product.service;
 
+import br.com.cursoudemy.productapi.config.exception.SuccessResponse;
 import br.com.cursoudemy.productapi.config.exception.ValidationException;
 import br.com.cursoudemy.productapi.modules.category.service.CategoryService;
 import br.com.cursoudemy.productapi.modules.product.dto.ProductRequest;
@@ -90,6 +91,19 @@ public class ProductService {
         return ProductResponse.of(product);
     }
 
+    public ProductResponse update(ProductRequest request,
+                                  Integer id) {
+        validateProductDataInformed(request);
+        validateInformedId(id);
+        validateCategoryIdAndSupplierIdInformed(request);
+        var category = categoryService.findById(request.getCategoryId());
+        var supplier = supplierService.findById(request.getSupplierId());
+        var product = Product.of(request, supplier, category);
+        product.setId(id);
+        productRepository.save(product);
+        return ProductResponse.of(product);
+    }
+
     private void validateProductDataInformed(ProductRequest request) {
         if (isEmpty(request.getName())) {
             throw new ValidationException("The Product name wasn't informed.");
@@ -108,6 +122,25 @@ public class ProductService {
         }
         if (isEmpty(request.getSupplierId())) {
             throw new ValidationException("The Supplier ID was not informed.");
+        }
+    }
+
+    public Boolean existsByCategoryId(Integer id) {
+        return productRepository.existsByCategoryId(id);
+    }
+    public Boolean existsBySupplierId(Integer id) {
+        return productRepository.existsBySupplierId(id);
+    }
+
+    public SuccessResponse delete(Integer id) {
+        validateInformedId(id);
+        productRepository.deleteById(id);
+        return SuccessResponse.create("The supplier was deleted.");
+    }
+
+    private void validateInformedId(Integer id) {
+        if ( isEmpty(id) ) {
+            throw new ValidationException("The supplier ID must be informed.");
         }
     }
 
