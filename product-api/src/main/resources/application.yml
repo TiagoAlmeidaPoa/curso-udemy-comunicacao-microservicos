@@ -2,6 +2,8 @@ server:
   port: ${PORT:8081}
 
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: product-api
 
