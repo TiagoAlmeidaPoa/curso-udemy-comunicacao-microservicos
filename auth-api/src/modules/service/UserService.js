@@ -59,7 +59,7 @@ class UserService {
             let user = await UserRepository.findByEmail(email); 
             this.validateUserNotFound(user);
             await this.validatePassword(password, user.password);
-            const authUser = { d: user.id, name: user.name, email: user.email };
+            const authUser = { id: user.id, name: user.name, email: user.email };
             const accessToken = jwt.sign({authUser}, secrets.API_SECRET ,{expiresIn: '1d'});
             return {
                 status: HttpStatus.SUCCESS,
