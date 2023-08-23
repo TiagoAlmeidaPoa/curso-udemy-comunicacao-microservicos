@@ -3,8 +3,8 @@ server:
 
 spring:
   main:
-    allow-circular-references: true
     allow-bean-definition-overriding: true
+    allow-circular-references: true
   application:
     name: product-api
 
@@ -42,10 +42,10 @@ app-config:
     exchange:
       product: product.topic
 
-  routingKey:
-    product-stock: product-stock-update.routingKey
-    sales-confirmation: sales-confirmation.routingKey
+    routingKey:
+      product-stock: product-stock-update.routingKey
+      sales-confirmation: sales-confirmation.routingKey
 
-  queue:
-    product-stock: product-stock-update.queue
-    sales-confirmation: sales-confirmation.queue
+    queue:
+      product-stock: product-stock-update.queue
+      sales-confirmation: sales-confirmation.queue
